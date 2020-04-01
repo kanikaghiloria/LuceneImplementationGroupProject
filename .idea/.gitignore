@@ -1,0 +1,5 @@
+# Default ignored files
+/workspace.xml
+src/main/resources/Index/
+src/main/resources/results
+target/
