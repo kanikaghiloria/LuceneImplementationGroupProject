@@ -16,7 +16,7 @@ public class LuceneConstants
     public static final String OUTPUT_FILE_PATH = "src/main/resources/results";
     public static final String TOPICS_FILE_PATH = "src/main/resources/topics";
 
-    public static final int MAX_SEARCH_RESULTS = 2000;
+    public static final int MAX_SEARCH_RESULTS = 3000;
     //    public static final List<String> stopWords = new ArrayList<String>(
 //            Arrays.asList("a", "an", "and", "are", "as", "at", "be", "but", "by",
 //                    "for", "if", "in", "into", "is", "it", "no", "not", "of", "on", "or", "such",

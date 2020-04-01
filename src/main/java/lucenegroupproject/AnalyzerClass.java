@@ -23,15 +23,15 @@ public class AnalyzerClass {
     public Analyzer getPerFieldAnalyzer()
     {
         Map<String,Analyzer> analyzerPerField = new HashMap<>();
-        analyzerPerField.put(LuceneConstants.HEADLINE, new EnglishAnalyzer());
-        analyzerPerField.put(LuceneConstants.TEXT, new EnglishAnalyzer());
+        analyzerPerField.put(LuceneConstants.HEADLINE, new EnglishAnalyzer(LuceneConstants.stopWordsSet));
+        analyzerPerField.put(LuceneConstants.TEXT, new EnglishAnalyzer(LuceneConstants.stopWordsSet));
         analyzerPerField.put(LuceneConstants.ABS, new WhitespaceAnalyzer());
-        analyzerPerField.put(LuceneConstants.HEADER, new EnglishAnalyzer());
-        analyzerPerField.put(LuceneConstants.FURTHER, new EnglishAnalyzer());
+        analyzerPerField.put(LuceneConstants.HEADER, new EnglishAnalyzer(LuceneConstants.stopWordsSet));
+        analyzerPerField.put(LuceneConstants.FURTHER, new EnglishAnalyzer(LuceneConstants.stopWordsSet));
         analyzerPerField.put(LuceneConstants.SIGN_JOB, new WhitespaceAnalyzer());
         analyzerPerField.put(LuceneConstants.ADDRESS, new WhitespaceAnalyzer());
         analyzerPerField.put(LuceneConstants.AGENCY, new WhitespaceAnalyzer());
-        analyzerPerField.put(LuceneConstants.SUMMARY, new EnglishAnalyzer());
+        analyzerPerField.put(LuceneConstants.SUMMARY, new EnglishAnalyzer(LuceneConstants.stopWordsSet));
         analyzerPerField.put(LuceneConstants.TITLE, new WhitespaceAnalyzer());
 //        analyzerPerField.put(LuceneConstants.TITLE, new WhitespaceAnalyzer());
 

@@ -2,6 +2,7 @@ package lucenegroupproject;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -15,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class QueryIndex {
 
     // Limit the number of search results we get
 
-    public static void main(String[] args) throws IOException, org.apache.lucene.queryparser.classic.ParseException {
+    public static void main(String[] args) throws IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
 
         // Analyzer used by the query parser, the same as the one used in index
         // EnglishAnalyzer shall be changed later
@@ -48,7 +50,7 @@ public class QueryIndex {
         String[] topics = content.split("<top>");
 
         // Delete the blank items
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<String>();
         for (int i = 0; i < topics.length && topics.length > 0; i++) {
             if (topics[i] == null || "".equals(topics[i].trim().toString())) {
                 continue;
@@ -114,13 +116,13 @@ public class QueryIndex {
         }
         System.out.println("Parsing query...");
         // Create the query parser. The default search field is "words"
-        QueryParser parser = new QueryParser(LuceneConstants.TEXT, analyzer.getAnalyzer());
-//        QueryParser parser = new MultiFieldQueryParser(new String[] {LuceneConstants.HEADLINE, LuceneConstants.TEXT,
-//                LuceneConstants.BYLINE, LuceneConstants.HEADING, LuceneConstants.HEADER, LuceneConstants.FOOTNOTE, LuceneConstants.ADDRESS,
-//                LuceneConstants.AGENCY, LuceneConstants.SUMMARY, LuceneConstants.TITLE, LuceneConstants.US_BUREAU, LuceneConstants.US_DEPARTMRNT,
-//                LuceneConstants.DATE_LINE, LuceneConstants.SUBJECT}, analyzer.getPerFieldAnalyzer());
+//        QueryParser parser = new QueryParser(LuceneConstants.TEXT, analyzer.getAnalyzer());
+        QueryParser parser = new MultiFieldQueryParser(new String[] {LuceneConstants.HEADLINE, LuceneConstants.TEXT,
+                LuceneConstants.BYLINE, LuceneConstants.HEADING, LuceneConstants.HEADER, LuceneConstants.FOOTNOTE, LuceneConstants.ADDRESS,
+                LuceneConstants.AGENCY, LuceneConstants.SUMMARY, LuceneConstants.TITLE, LuceneConstants.US_BUREAU, LuceneConstants.US_DEPARTMRNT,
+                LuceneConstants.DATE_LINE, LuceneConstants.SUBJECT}, analyzer.getPerFieldAnalyzer());
 
-        String queryString;
+        String queryString = "";
         List<String> resultsList = new ArrayList<>();
 
         for (int j = 0; j < Queries.length; j++) {
@@ -180,14 +182,18 @@ public class QueryIndex {
 //                    System.out.println(j + " - Query: " + queryString);
                     hitsInclude = indexSearcher.search(query, LuceneConstants.MAX_SEARCH_RESULTS).scoreDocs;
                 }
+//                System.out.println("hitsInclude.length: "+ hitsInclude.length);
+//                System.out.println("hitsExclude.length: "+ hitsExclude.length);
 
 
 //                Query query = new QueryParser(LuceneConstants.TEXT, analyzer.getAnalyzer()).parse(booleanQuery.toString());
 //                System.out.println(j + " Query: " + query.toString());
                 for (int i=0; i<hitsInclude.length; i++)
                 {
-                    for (ScoreDoc scoreDoc : hitsExclude) {
-                        if (hitsInclude[i] == scoreDoc) {
+                    for (int k=0; k<hitsExclude.length; k++)
+                    {
+                        if (hitsInclude[i] == hitsExclude[k])
+                        {
                             hitsInclude = removeTheElement(hitsInclude, i);
                         }
                     }
@@ -199,11 +205,17 @@ public class QueryIndex {
 //                ScoreDoc[] hits = indexSearcher.search(booleanQuery, LuceneConstants.MAX_SEARCH_RESULTS).scoreDocs;
 
                 // Save the results
-                ArrayList<String> docNums = new ArrayList<>();
+                ArrayList<String> docNums = new ArrayList<String>();
 
 //                System.out.println("hits.length: " + hits.length);
 //                for (int i = 0; i < hitsInclude.length; i++)
-                for (int i = 0; i < 1000; i++)
+                int totalResults;
+                if (hitsInclude.length < 1000)
+                    totalResults = hitsInclude.length;
+                else
+                    totalResults = 1000;
+
+                for (int i = 0; i < totalResults; i++)
                 {
                     Document hitDoc = indexSearcher.doc(hitsInclude[i].doc);
 //                    System.out.println("i: "+i +" //query : " + j);
@@ -218,7 +230,7 @@ public class QueryIndex {
                         String sResults = (j + 401) + " 0 " + hitDoc.get(LuceneConstants.DOCUMENT_NUMBER).trim() + " " + (i + 1) + " " + hitsInclude[i].score + " run-tag";
                         String outString = "Getting the result " + (i + 1) + " of query " + (j + 1) + "...";
                         resultsList.add(sResults);
-//                        System.out.println(outString);
+                        System.out.println(outString);
 //                        docNums.add(hitDoc.get("DOCNO").trim());
                         docNums.add(hitDoc.get(LuceneConstants.DOCUMENT_NUMBER).trim());
                     }
@@ -245,8 +257,7 @@ public class QueryIndex {
         directory.close();
 
     }
-    public static ScoreDoc[] removeTheElement(ScoreDoc[] arr,
-                                              int index)
+    public static ScoreDoc[] removeTheElement(ScoreDoc[] arr, int index)
     {
         // If the array is empty
         // or the index is not in array range
