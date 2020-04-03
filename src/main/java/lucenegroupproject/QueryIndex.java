@@ -230,7 +230,7 @@ public class QueryIndex {
                         String sResults = (j + 401) + " 0 " + hitDoc.get(LuceneConstants.DOCUMENT_NUMBER).trim() + " " + (i + 1) + " " + hitsInclude[i].score + " run-tag";
                         String outString = "Getting the result " + (i + 1) + " of query " + (j + 1) + "...";
                         resultsList.add(sResults);
-                        System.out.println(outString);
+                        //System.out.println(outString);
 //                        docNums.add(hitDoc.get("DOCNO").trim());
                         docNums.add(hitDoc.get(LuceneConstants.DOCUMENT_NUMBER).trim());
                     }
