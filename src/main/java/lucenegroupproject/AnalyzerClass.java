@@ -16,8 +16,8 @@ public class AnalyzerClass {
 
     public Analyzer getAnalyzer()
     {
-        return new StandardAnalyzer(LuceneConstants.stopWordsSet);
-//        return new EnglishAnalyzer(LuceneConstants.stopWordsSet);
+//        return new StandardAnalyzer(LuceneConstants.stopWordsSet);
+        return new EnglishAnalyzer(LuceneConstants.stopWordsSet);
 //        return new EnglishAnalyzer();
     }
     public Analyzer getPerFieldAnalyzer()
@@ -38,6 +38,24 @@ public class AnalyzerClass {
 
         return new PerFieldAnalyzerWrapper(new StandardAnalyzer(LuceneConstants.stopWordsSet), analyzerPerField);
     }
+//    public Analyzer getPerFieldAnalyzer()
+//    {
+//        Map<String,Analyzer> analyzerPerField = new HashMap<>();
+//        analyzerPerField.put(LuceneConstants.HEADLINE, new EnglishAnalyzer());
+//        analyzerPerField.put(LuceneConstants.TEXT, new EnglishAnalyzer());
+//        analyzerPerField.put(LuceneConstants.ABS, new WhitespaceAnalyzer());
+//        analyzerPerField.put(LuceneConstants.HEADER, new EnglishAnalyzer());
+//        analyzerPerField.put(LuceneConstants.FURTHER, new EnglishAnalyzer());
+//        analyzerPerField.put(LuceneConstants.SIGN_JOB, new WhitespaceAnalyzer());
+//        analyzerPerField.put(LuceneConstants.ADDRESS, new WhitespaceAnalyzer());
+//        analyzerPerField.put(LuceneConstants.AGENCY, new WhitespaceAnalyzer());
+//        analyzerPerField.put(LuceneConstants.SUMMARY, new EnglishAnalyzer());
+//        analyzerPerField.put(LuceneConstants.TITLE, new WhitespaceAnalyzer());
+////        analyzerPerField.put(LuceneConstants.TITLE, new WhitespaceAnalyzer());
+//
+//
+//        return new PerFieldAnalyzerWrapper(new StandardAnalyzer(LuceneConstants.stopWordsSet), analyzerPerField);
+//    }
     public Similarity getSimilarity()
     {
         return new BM25Similarity();

@@ -44,6 +44,7 @@ public class IndexFiles {
 //        Analyzer analyzer = new EnglishAnalyzer();
         AnalyzerClass analyzer = new AnalyzerClass();
         IndexWriterConfig iwc = new IndexWriterConfig(analyzer.getPerFieldAnalyzer());
+//        IndexWriterConfig iwc = new IndexWriterConfig(analyzer.getAnalyzer());
 //        iwc.setSimilarity(new BooleanSimilarity());
         iwc.setSimilarity(analyzer.getSimilarity());
         IndexWriter writer = new IndexWriter(indexDirectory, iwc);
@@ -70,7 +71,7 @@ public class IndexFiles {
                 }
             }
         }
-        System.out.println("docsArrayft.size(): " + docsArrayft.size());
+//        System.out.println("docsArrayft.size(): " + docsArrayft.size());
 
         //fbis
 //        String[] docsArrayfbis = new String[495];
@@ -90,7 +91,7 @@ public class IndexFiles {
                 }
             }
         }
-        System.out.println("docsArrayfbis.size(): "+ docsArrayfbis.size());
+//        System.out.println("docsArrayfbis.size(): "+ docsArrayfbis.size());
 
         //fr94
 //        String[] docsArrayfr94 = new String[495];
@@ -108,7 +109,7 @@ public class IndexFiles {
                 }
             }
         }
-        System.out.println("docsArrayfr94.size(): " + docsArrayfr94.size());
+//        System.out.println("docsArrayfr94.size(): " + docsArrayfr94.size());
 
         //latimes
 //        String[] docsArraylatimes = new String[735];
@@ -127,7 +128,7 @@ public class IndexFiles {
                 }
             }
         }
-        System.out.println("docsArraylatimes.size(): " + docsArraylatimes.size());
+//        System.out.println("docsArraylatimes.size(): " + docsArraylatimes.size());
 
         String docsPath;
         // Indexing documents in ft
@@ -182,7 +183,7 @@ public class IndexFiles {
         System.out.println("Indexing of ft complete");
 
 //         Indexing documents in fbis
-        int ctr = 1;
+        int ctr = 0;
         System.out.println("indexing files in fbis ...");
         for (String docsArrayfbi : docsArrayfbis) {
             docsPath = docsArrayfbi;
@@ -236,7 +237,7 @@ public class IndexFiles {
         System.out.println("Total document indexed: " + ctr);
         System.out.println("Indexing of fbis complete");
 
-        ctr =1;
+        ctr =0;
         System.out.println("indexing files in fr94 ...");
         for (String s : docsArrayfr94) {
 //            docsPath = docsArrayfr94[j];
@@ -291,7 +292,7 @@ public class IndexFiles {
         System.out.println("Total document indexed: " + ctr);
         System.out.println("Indexing of fr94 complete");
 
-        ctr =1;
+        ctr =0;
         System.out.println("indexing files in latimes ...");
         for (String docsArraylatime : docsArraylatimes) {
 //            docsPath = docsArraylatimes[j];
@@ -351,7 +352,7 @@ public class IndexFiles {
 
     static void indexDocs(final IndexWriter writer, Path path) throws IOException
     {
-        final int[] num = {1};
+        final int[] num = {0};
         if (Files.isDirectory(path))
         {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
